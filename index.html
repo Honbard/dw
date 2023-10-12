@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - ARP 312</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-form">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username" />
+            <input type="password" id="password" placeholder="Password" />
+            <button onclick="login()">Login</button>
+            <p id="error-message"></p>
+        </div>
+    </div>
+
+    <div class="main-page" id="main-page">
+        <div class="profile">
+            <div class="circle">
+                <img src="https://media.discordapp.net/attachments/895511469129605130/1149708420686032986/image.png?width=333&height=355" alt="Profile Image" />
+            </div>
+            <div class="user-info">
+                <p><span id="username-display"></span></p>
+                <p><span id="Auth-display"></span></p>
+
+        </div>
+        <div class="status">
+            <div id="user-status">Online</div>
+            <div id="server-status">FORGETEST Server: Online</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+  <!-- Main Page Content -->
+  <div class="content" id="page-1">
+    <div class="buttons">
+      <button class="red-button">Profile Setting</button>
+      <button class="blue-button" id="get-pin-button">Get Pin</button>
+    </div>
+    <div class="buttons">
+      <button class="green-button">LIVE VOTE DATA</button>
+      <button class="black-button" id="vote-forum-button">Vote Forum</button>
+    </div>
+  </div>
+
+  <!-- Page 2: Hidden by default -->
+  <div class="content" id="page-2" style="display: none;">
+    <div class="center-content">
+      <button class="black-button" id="get-vcode-button">Get-VCode</button>
+      <div class="code-container">
+        <div class="code-display" id="code-display">Click to generate code</div>
+      </div>
+      <button class="white-button" id="copy-button">Copy V-Code</button>
+    </div>
+  </div>
+
+  <!-- Back Button for Page 2 -->
+  <button class="grey-button" id="back-button">Back</button>
+
+  <!-- Page 3: Hidden by default -->
+  <div class="content" id="page-3" style="display: none;">
+    <div class="center-content">
+      <p>Enter your V-Code</p>
+      <div class="input-container">
+        <input type="text" class="v-code-input" placeholder="Type here">
+      </div>
+      <div class="box-container">
+        <div class="square">
+          <img src="https://media.discordapp.net/attachments/895511469129605130/1149987352060629052/Desain_tanpa_judul__54_-removebg-preview.png?width=255&height=163" alt="Custom Image 1">
+          <p>Nama: Vian</p>
+          <p>Kelas: 8A</p>
+          <p>Visi Misi: Walaupun Panas</p>
+          <button class="vote-button" onclick="castVote(this)">Vote</button>
+        </div>
+        <div class="square">
+          <img src="https://media.discordapp.net/attachments/895511469129605130/1149988399046995988/Desain_tanpa_judul__55_-removebg-preview.png?width=255&height=163" alt="Custom Image 2">
+          <p>Nama: Arsya</p>
+          <p>Kelas: 8A</p>
+          <p>Visi Misi: 帅气哥哥调侃大哥</p>
+          <button class="vote-button" onclick="castVote(this)">Vote</button>
+        </div>
+        <div class="square">
+          <img src="https://media.discordapp.net/attachments/895511469129605130/1149987351632818196/Desain_tanpa_judul__53_-removebg-preview.png?width=255&height=163" alt="Custom Image 3">
+          <p>Nama: Nafind</p>
+          <p>Kelas: 8A</p>
+          <p>Visi Misi: ENCHANTED</p>
+          <button class="vote-button" onclick="castVote(this)">Vote</button>
+        </div>
+      </div>
+      <div class="result-container" id="vote-response" style="display: none;">
+        <div class="result-box">
+          <p>Vote Success ✅</p>
+        </div>
+      </div>
+      <button class="grey-button" id="back-button-3" onclick="goBackToPage2()">Back</button>
+    </div>
+  </div>
+
+  <script>
+    const getVCodeButton = document.getElementById('get-vcode-button');
+    const codeDisplay = document.getElementById('code-display');
+    const copyButton = document.getElementById('copy-button');
+    const backButton = document.getElementById('back-button');
+    const getPinButton = document.getElementById('get-pin-button');
+    const page1 = document.getElementById('page-1');
+    const page2 = document.getElementById('page-2');
+    const voteForumButton = document.getElementById('vote-forum-button');
+    const page3 = document.getElementById('page-3');
+
+    getVCodeButton.addEventListener('click', () => {
+      const randomCode = generateRandomCode(7);
+      codeDisplay.textContent = randomCode;
+      copyButton.dataset.clipboardText = randomCode;
+    });
+
+    copyButton.addEventListener('click', () => {
+      const codeToCopy = copyButton.dataset.clipboardText;
+      const textArea = document.createElement('textarea');
+      textArea.value = codeToCopy;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert('Code copied to clipboard: ' + codeToCopy);
+    });
+
+    backButton.addEventListener('click', () => {
+      page2.style.display = 'none';
+      page1.style.display = 'block';
+    });
+
+    getPinButton.addEventListener('click', () => {
+      page1.style.display = 'none';
+      page2.style.display = 'block';
+    });
+
+    voteForumButton.addEventListener('click', () => {
+      page1.style.display = 'none';
+      page2.style.display = 'none';
+      page3.style.display = 'block';
+    });
+
+    function generateRandomCode(length) {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      return result;
+    }
+
+    function castVote(button) {
+      // Disable all vote buttons
+      const voteButtons = document.querySelectorAll('.vote-button');
+      voteButtons.forEach((btn) => {
+        btn.disabled = true;
+      });
+
+      // Display the "Vote Success" response
+      const voteResponse = document.getElementById('vote-response');
+      voteResponse.style.display = 'block';
+
+      // Simulate an asynchronous delay for the response (you can remove this in a real application)
+      setTimeout(() => {
+        // Hide the "Vote Success" response
+        voteResponse.style.display = 'none';
+
+        // Re-enable the vote buttons
+        voteButtons.forEach((btn) => {
+          btn.disabled = false;
+        });
+      }, 3000); // 3000 milliseconds (3 seconds) delay for the response
+    }
+
+    function goBackToPage2() {
+      page3.style.display = 'none';
+      page2.style.display = 'block';
+    }
+  </script>
+  
+</body>
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
